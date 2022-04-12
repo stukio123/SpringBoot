@@ -1,0 +1,67 @@
+package com.microservice.productsservice.Controllers;
+
+import com.microservice.productsservice.DTOs.BookDTO;
+import com.microservice.productsservice.Entities.Author;
+import com.microservice.productsservice.Entities.Book;
+import com.microservice.productsservice.Entities.Category;
+import com.microservice.productsservice.Repositories.AuthorRepository;
+import com.microservice.productsservice.Repositories.CategoryRepository;
+import com.microservice.productsservice.Services.BookService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("api/v1/product-service")
+@RequiredArgsConstructor
+public class ProductController {
+
+    private final BookService bookService;
+    private final AuthorRepository authorRepository;
+    private final CategoryRepository categoryRepository;
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Book> getAllProduct(){
+        return bookService.getAllBook();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookDTO getProductById(@PathVariable Long id){
+        return bookService.getBookById(id);
+    }
+
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookDTO createProduct(@RequestBody BookDTO book){
+        return bookService.createBook(book);
+    }
+
+    @GetMapping("/authors")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Author> getAllAuthors(){
+        return authorRepository.findAll();
+    }
+
+    @PostMapping("/authors")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Author createAuthor(@RequestBody Author author){
+        return authorRepository.save(author);
+    }
+
+    @GetMapping("/categories")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Category> getAllCategories(){
+        return categoryRepository.findAll();
+    }
+
+    @PostMapping("/categories")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Category createCategory(@RequestBody Category category){
+        return categoryRepository.save(category);
+    }
+
+}
