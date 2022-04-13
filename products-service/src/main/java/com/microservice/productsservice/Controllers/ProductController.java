@@ -6,7 +6,9 @@ import com.microservice.productsservice.Entities.Book;
 import com.microservice.productsservice.Entities.Category;
 import com.microservice.productsservice.Repositories.AuthorRepository;
 import com.microservice.productsservice.Repositories.CategoryRepository;
+import com.microservice.productsservice.Services.AuthorService;
 import com.microservice.productsservice.Services.BookService;
+import com.microservice.productsservice.Services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ public class ProductController {
     private final BookService bookService;
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
+    private final AuthorService authorService;
+    private final CategoryService categoryService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -43,7 +47,7 @@ public class ProductController {
     @GetMapping("/authors")
     @ResponseStatus(HttpStatus.OK)
     public List<Author> getAllAuthors(){
-        return authorRepository.findAll();
+        return authorService.getAllAuthors();
     }
 
     @PostMapping("/authors")
@@ -55,7 +59,7 @@ public class ProductController {
     @GetMapping("/categories")
     @ResponseStatus(HttpStatus.OK)
     public List<Category> getAllCategories(){
-        return categoryRepository.findAll();
+        return categoryService.getAllCategories();
     }
 
     @PostMapping("/categories")
@@ -64,4 +68,9 @@ public class ProductController {
         return categoryRepository.save(category);
     }
 
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Book> searchBook(@RequestParam("query") String query){
+        return bookService.searchBook(query);
+    }
 }

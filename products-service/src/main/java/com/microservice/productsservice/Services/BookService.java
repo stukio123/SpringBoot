@@ -9,16 +9,11 @@ import java.util.List;
 
 
 public interface BookService{
-
     public List<Book> getAllBook();
-
     public BookDTO getBookByName(String name);
-
     public List<Book> getBookByCategory(String category);
-
     public List<Book> getBookBySku(String sku);
-
     public BookDTO getBookById(Long id);
-
     public BookDTO createBook(BookDTO book);
+    public List<Book> searchBook(String query);
 }

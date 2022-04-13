@@ -19,4 +19,8 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     @Query("SELECT DISTINCT b FROM Book b JOIN FETCH b.categories c WHERE c.name like %:name%")
     public List<Book> findBookByCategory(@Param("name") String name);
 
+    @Query("SELECT b FROM Book b WHERE b.name LIKE CONCAT('%',:query,'%') " +
+            "OR b.sumary LIKE CONCAT('%',:query,'%')")
+    List<Book> searchBooks(String query);
+
 }

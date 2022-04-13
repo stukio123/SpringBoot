@@ -11,6 +11,7 @@ import com.microservice.productsservice.Services.BookService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
 @Service
@@ -32,7 +33,8 @@ public class BookServiceImpl implements BookService {
     }
     @Override
     public BookDTO getBookByName(String name){
-        return mapEntityToDto(bookRepository.findBookByName(name).orElse(null));
+        return mapEntityToDto(bookRepository.findBookByName(name).orElseThrow(
+                ()->new EntityNotFoundException("Úm bala xì bùa")));
     }
     @Override
     public List<Book> getBookByCategory(String category){
@@ -44,13 +46,19 @@ public class BookServiceImpl implements BookService {
     }
     @Override
     public BookDTO getBookById(Long id){
-        return mapEntityToDto(bookRepository.findById(id).orElse(null));
+        return mapEntityToDto(bookRepository.findById(id).orElseThrow(
+                ()->new EntityNotFoundException()));
     }
     @Override
     public BookDTO createBook(BookDTO book){
         Book entity = new Book();
         mapDtoTOEntity(book,entity);
         return mapEntityToDto(bookRepository.save(entity));
+    }
+
+    @Override
+    public List<Book> searchBook(String query) {
+        return bookRepository.searchBooks(query);
     }
 
     private void mapDtoTOEntity(BookDTO dto, Book entity){
