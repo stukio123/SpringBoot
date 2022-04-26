@@ -44,6 +44,11 @@ public class ProductController {
         return bookService.createBook(book);
     }
 
+    @GetMapping()
+    public BookDTO getBookByName(@RequestParam String name){
+        return bookService.getBookByName(name);
+    }
+
     @GetMapping("/authors")
     @ResponseStatus(HttpStatus.OK)
     public List<Author> getAllAuthors(){

@@ -29,7 +29,7 @@ public class Author implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "authors")
-    //@JsonBackReference
+    @JsonBackReference
     private List<Book> books;
 
     @Override

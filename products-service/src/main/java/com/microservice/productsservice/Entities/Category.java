@@ -29,7 +29,7 @@ public class Category implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    //@JsonBackReference
+    @JsonBackReference
     private List<Book> books;
 
     @Override
